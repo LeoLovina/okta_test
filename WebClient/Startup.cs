@@ -8,6 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebClient.Models;
+using WebClient.Services;
 
 namespace WebClient
 {
@@ -23,6 +25,9 @@ namespace WebClient
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<OktaSettings>(Configuration.GetSection("Okta"));
+            services.AddSingleton<ITokenService, OktaTokenService>();
+            services.AddTransient<IApiService, SimpleApiService>();
             services.AddControllersWithViews();
         }
 
