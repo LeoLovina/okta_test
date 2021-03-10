@@ -53,8 +53,8 @@ namespace WebClient.Services
                 if (response.IsSuccessStatusCode)
                 {
                     var json = await response.Content.ReadAsStringAsync();
-                    this.token = JsonConvert.DeserializeObject<OktaToken>(json);
-                    this.token.ExpiresAt = DateTime.UtcNow.AddSeconds(this.token.ExpiresIn);
+                    token = JsonConvert.DeserializeObject<OktaToken>(json);
+                    token.ExpiresAt = DateTime.UtcNow.AddSeconds(this.token.ExpiresIn);
                 }
                 else
                 {
