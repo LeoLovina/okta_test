@@ -13,11 +13,13 @@ namespace WebClient.Services
     public class OktaTokenService : ITokenService
     {
         private OktaToken token = new OktaToken();
-        private readonly IOptions<OktaSettings> oktaSettings;
+        private readonly IOptions<OktaSettings> _oktaSettings;
+        private HttpClient _httpClient;
 
-        public OktaTokenService(IOptions<OktaSettings> oktaSettings)
+        public OktaTokenService(IOptions<OktaSettings> oktaSettings, HttpClient httpClient)
         {
-            this.oktaSettings = oktaSettings;
+            _oktaSettings = oktaSettings;
+            _httpClient = httpClient;
         }
 
         public async Task<string> GetToken()
@@ -32,24 +34,22 @@ namespace WebClient.Services
 
         public async Task<OktaToken> GetNewAccessToken()
         {
-            var token = new OktaToken();
-            var client = new HttpClient();
-            var client_id = this.oktaSettings.Value.ClientId;
-            var client_secret = this.oktaSettings.Value.ClientSecret;
+            OktaToken token;
+            var client_id = _oktaSettings.Value.ClientId;
+            var client_secret = _oktaSettings.Value.ClientSecret;
             var clientCreds = System.Text.Encoding.UTF8.GetBytes($"{client_id}:{client_secret}");
-            
-            client.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Basic", System.Convert.ToBase64String(clientCreds));
+
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", System.Convert.ToBase64String(clientCreds));
             var postMessage = new Dictionary<string, string>();
             postMessage.Add("grant_type", "client_credentials");
             postMessage.Add("scope", "access_token");
-            var request = new HttpRequestMessage(HttpMethod.Post, this.oktaSettings.Value.TokenUrl)
+            var request = new HttpRequestMessage(HttpMethod.Post, _oktaSettings.Value.TokenUrl)
             {
                 Content = new FormUrlEncodedContent(postMessage)
             };
             try
             {
-                var response = await client.SendAsync(request);
+                var response = await _httpClient.SendAsync(request);
                 if (response.IsSuccessStatusCode)
                 {
                     var json = await response.Content.ReadAsStringAsync();

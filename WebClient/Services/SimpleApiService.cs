@@ -14,11 +14,9 @@ namespace WebClient.Services
     {
         private readonly IHttpClientFactory _clientFactory;
         private readonly ITokenService _tokenService;
-        private readonly IOptions<ApiSettings> _apiSettings;
-        public SimpleApiService(IOptions<ApiSettings> apiSettings, ITokenService tokenService, IHttpClientFactory clientFactory)
+        public SimpleApiService(ITokenService tokenService, IHttpClientFactory clientFactory)
         {
             _tokenService = tokenService;
-            _apiSettings = apiSettings;
             _clientFactory = clientFactory;
         }
 
