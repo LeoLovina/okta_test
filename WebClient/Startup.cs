@@ -26,6 +26,7 @@ namespace WebClient
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<OktaSettings>(Configuration.GetSection("Okta"));
+            services.Configure<ApiSettings>(Configuration.GetSection("Api"));
             services.AddSingleton<ITokenService, OktaTokenService>();
             services.AddTransient<IApiService, SimpleApiService>();
             services.AddControllersWithViews();
