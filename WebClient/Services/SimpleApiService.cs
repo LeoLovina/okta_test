@@ -12,22 +12,22 @@ namespace WebClient.Services
 {
     public class SimpleApiService : IApiService
     {
-        private HttpClient client = new HttpClient();
+        private readonly IHttpClientFactory _clientFactory;
         private readonly ITokenService _tokenService;
-        private readonly IOptions<ApiSettings> _apiSettings;
-        public SimpleApiService(IOptions<ApiSettings> apiSettings, ITokenService tokenService)
+        public SimpleApiService(ITokenService tokenService, IHttpClientFactory clientFactory)
         {
-            this._tokenService = tokenService;
-            this._apiSettings = apiSettings;
+            _tokenService = tokenService;
+            _clientFactory = clientFactory;
         }
 
         public async Task<IList<string>> GetValues()
         {
+            var client = _clientFactory.CreateClient("ApiHttpClient");
             List<string> values = new List<string>();
             var token = await _tokenService.GetToken();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            var res = await client.GetAsync($"{_apiSettings.Value.BaseUrl}api/values");
-            if (res.IsSuccessStatusCode)
+            var res = await client.GetAsync($"api/values");
+            if(res.IsSuccessStatusCode)
             {
                 var json = res.Content.ReadAsStringAsync().Result;
                 values = JsonConvert.DeserializeObject<List<string>>(json);

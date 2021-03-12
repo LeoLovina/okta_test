@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using WebClient.Models;
 using WebClient.Services;
@@ -26,9 +27,22 @@ namespace WebClient
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<OktaSettings>(Configuration.GetSection("Okta"));
-            services.Configure<ApiSettings>(Configuration.GetSection("Api"));
             services.AddSingleton<ITokenService, OktaTokenService>();
             services.AddTransient<IApiService, SimpleApiService>();
+
+            // https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests
+            services.AddHttpClient("ApiHttpClient", config =>
+            {
+                config.BaseAddress = new Uri(Configuration["Api:BaseUrl"]);
+            });
+            //services.AddHttpClient<ITokenService, OktaTokenService>(config =>
+            //{
+            //    var client_id = Configuration["Okta:ClientId"];
+            //    var client_secret = Configuration["Okta:ClientSecret"]; 
+            //    var clientCreds = System.Text.Encoding.UTF8.GetBytes($"{client_id}:{client_secret}");
+            //    config.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", System.Convert.ToBase64String(clientCreds));
+            //    config.BaseAddress = new Uri(Configuration["Okta:TokenUrl"]);
+            //});
             services.AddControllersWithViews();
         }
 
