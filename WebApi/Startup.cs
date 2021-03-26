@@ -1,3 +1,4 @@
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -32,6 +33,9 @@ namespace WebApi
                     options.Audience = "api://default";
                     options.RequireHttpsMetadata = true;
                 });
+
+            // register MediatR handlers
+            services.AddMediatR(typeof(Startup));
 
             services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog());
             services.AddControllers();
