@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
+using WebApi.Application.Dto;
+using WebApi.Application.Ping.Commands;
 using WebApi.MediatTest;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -25,10 +27,10 @@ namespace WebApi.Controllers
         [HttpGet]
         public async Task<IEnumerable<string>> Get()
         {
-            var response =  _mediator.Publish(new Ping { SendingTime = DateTime.Now });
-            response.Wait();
+            //var response =  _mediator.Publish(new Ping { SendingTime = DateTime.Now });
+            //response.Wait();
 
-
+            var response = _mediator.Send(new CreatePingCommand());
 
             return new string[] { "value1", "value2" };
         }
@@ -43,8 +45,10 @@ namespace WebApi.Controllers
 
         // POST api/<PingController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<PingDto> Post(CreatePingCommand command)
         {
+            var response = await _mediator.Send(command);
+            return response;
         }
 
         // PUT api/<PingController>/5
