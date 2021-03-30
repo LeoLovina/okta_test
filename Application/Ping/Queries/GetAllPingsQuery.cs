@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using MediatR;
-using WebApi.Application.Common;
-using WebApi.Application.Dto;
+using Application.Common;
+using Application.Dto;
 
-namespace WebApi.Application.Ping.Queries
+
+namespace Application.Ping.Queries
 {
     public class GetAllPingsQuery : IRequestWrapper<List<PingDto>>
     {

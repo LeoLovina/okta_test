@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
+using Application.Common;
+using Application.Dto;
+using Application.Ping.Commands;
+using Application.Ping.Queries;
 using MediatR;
-using WebApi.Application.Common;
-using WebApi.Application.Dto;
-using WebApi.Application.Ping.Commands;
-using WebApi.Application.Ping.Queries;
+
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
