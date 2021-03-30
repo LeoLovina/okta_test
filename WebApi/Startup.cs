@@ -1,4 +1,5 @@
 using System.Reflection;
+using Application;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -35,10 +36,8 @@ namespace WebApi
                     options.RequireHttpsMetadata = true;
                 });
 
-            // register MediatR handlers
-            services.AddMediatR(Assembly.GetExecutingAssembly());
-
             services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog());
+            services.AddApplication();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
