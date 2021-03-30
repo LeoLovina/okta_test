@@ -2,11 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using MediatR;
+using WebApi.Application.Common;
 using WebApi.Application.Dto;
 using WebApi.Application.Ping.Commands;
-using WebApi.MediatTest;
+using WebApi.Application.Ping.Queries;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -25,27 +27,24 @@ namespace WebApi.Controllers
 
         // GET: api/<PingController>
         [HttpGet]
-        public async Task<IEnumerable<string>> Get()
+        public async Task<ServiceResult<List<PingDto>>> Get()
         {
-            //var response =  _mediator.Publish(new Ping { SendingTime = DateTime.Now });
-            //response.Wait();
-
-            var response = _mediator.Send(new CreatePingCommand());
-
-            return new string[] { "value1", "value2" };
+            var response = await _mediator.Send(new GetAllPingsQuery());
+            return response;
         }
 
         // GET api/<PingController>/5
         [HttpGet("{id}")]
         public async Task<string> Get(int id)
         {
-            var response = await _mediator.Send(new Ping{ SendingTime = DateTime.Now});
-            return response;
+            //var response = await _mediator.Send(new Ping{ SendingTime = DateTime.Now});
+            //return response;
+            return "haha";
         }
 
         // POST api/<PingController>
         [HttpPost]
-        public async Task<PingDto> Post(CreatePingCommand command)
+        public async Task<ServiceResult<PingDto>> Post(CreatePingCommand command)
         {
             var response = await _mediator.Send(command);
             return response;
