@@ -1,3 +1,4 @@
+using System.Reflection;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -35,7 +36,7 @@ namespace WebApi
                 });
 
             // register MediatR handlers
-            services.AddMediatR(typeof(Startup));
+            services.AddMediatR(Assembly.GetExecutingAssembly());
 
             services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog());
             services.AddControllers();

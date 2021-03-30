@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using MediatR;
-using WebApi.Application.Common;
-using WebApi.Application.Dto;
+using Application.Common;
+using Application.Dto;
 
-namespace WebApi.Application.Ping.Commands
+namespace Application.Ping.Commands
 {
     public class CreatePingCommand : IRequestWrapper<PingDto>
     {

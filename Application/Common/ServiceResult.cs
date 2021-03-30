@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace WebApi.Application.Common
+﻿namespace Application.Common
 {
     public class ServiceResult <T> : ServiceResult
     {
