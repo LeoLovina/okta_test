@@ -8,7 +8,7 @@ using Application.Common.Models;
 using Application.Dto;
 
 
-namespace Application.Ping.Queries
+namespace Application.Pings.Queries
 {
     public class GetAllPingsQuery : IRequestWrapper<List<PingDto>>
     {

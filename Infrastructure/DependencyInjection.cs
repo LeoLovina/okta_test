@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Application.Common.Interfaces;
 using Infrastructure.Persistence;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +21,10 @@ namespace Infrastructure
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
                     b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
+
+            // Scoped lifetime services are created once per request within the scope.
+            // Create DI for IApplicationDbContext that binds to ApplicationDbContext
+            services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
             return services;
         }
     }

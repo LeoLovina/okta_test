@@ -9,7 +9,7 @@ namespace Domain.Entities
     public class Ping
     {
         public long Id { get; set; }
-        public string Hostname { get; set; }
+        public string HostName { get; set; }
         public string Message { get; set; }
         public DateTime SendingTime { get; set; }
     }

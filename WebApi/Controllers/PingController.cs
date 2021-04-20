@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 using Application.Common;
 using Application.Common.Models;
 using Application.Dto;
-using Application.Ping.Commands;
-using Application.Ping.Queries;
+using Application.Pings.Commands;
+using Application.Pings.Queries;
 using MediatR;
 
 
