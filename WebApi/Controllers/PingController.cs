@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using Application.Common;
+using Application.Common.Models;
 using Application.Dto;
 using Application.Ping.Commands;
 using Application.Ping.Queries;

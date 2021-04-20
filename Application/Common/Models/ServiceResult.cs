@@ -1,4 +1,4 @@
-﻿namespace Application.Common
+﻿namespace Application.Common.Models
 {
     public class ServiceResult <T> : ServiceResult
     {

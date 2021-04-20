@@ -3,6 +3,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Common;
+using Application.Common.Interfaces;
+using Application.Common.Models;
 using Application.Dto;
 
 namespace Application.Ping.Commands
@@ -19,6 +21,7 @@ namespace Application.Ping.Commands
 
     public class CreatePingEventHandler : IRequestHandlerWrapper<CreatePingCommand, PingDto>
     {
+
         public async Task<ServiceResult<PingDto>> Handle(CreatePingCommand request, CancellationToken cancellationToken)
         {
             var entity = new PingDto()
