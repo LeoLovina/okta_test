@@ -1,5 +1,6 @@
 using System.Reflection;
 using Application;
+using Infrastructure;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -37,6 +38,8 @@ namespace WebApi
                 });
 
             services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog());
+
+            services.AddInfrastructure(Configuration);
             services.AddApplication();
             services.AddControllers();
             services.AddSwaggerGen(c =>
