@@ -141,3 +141,17 @@ https://docs.microsoft.com/bs-cyrl-ba/ef/core/managing-schemas/migrations/projec
     - Microsoft.EntityFrameworkCore.Tools
 - change the 'Default project' to the project that contains DbContext 
 - execute 'add-migration init' or 'add-migration init -o Persistence\Migration'
+- To undo this action, use Remove-Migration.
+- auto create database in Entity Framework Core
+https://entityframework.net/knowledge-base/42355481/auto-create-database-in-entity-framework-core
+``` C#
+using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+{
+    var context = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    context.Database.Migrate();
+
+    // create a new database  
+    //context.Database.EnsureDeleted();
+    //context.Database.EnsureCreated();
+}
+```

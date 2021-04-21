@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Infrastructure.Persistence.Migration
+namespace Infrastructure.Persistence.Migrations
 {
     public partial class init : Migration
     {
@@ -13,9 +13,10 @@ namespace Infrastructure.Persistence.Migration
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    HostName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    HostName = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: true),
+                    Times = table.Column<int>(type: "int", nullable: false),
                     Message = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SendingTime = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    SendingTime = table.Column<DateTime>(type: "DateTime", nullable: false)
                 },
                 constraints: table =>
                 {
