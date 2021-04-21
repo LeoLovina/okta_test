@@ -13,7 +13,6 @@ namespace Infrastructure.Persistence
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
-
         }
 
         public DbSet<Ping> Pings { get; set; }

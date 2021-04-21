@@ -133,3 +133,11 @@ namespace app.Models
     }
     ```              
 
+# Entity Framework
+https://docs.microsoft.com/bs-cyrl-ba/ef/core/managing-schemas/migrations/projects?tabs=dotnet-core-cli
+- open Package Manager Console
+    - install necessary packages
+    - Microsoft.EntityFrameworkCore.Design
+    - Microsoft.EntityFrameworkCore.Tools
+- change the 'Default project' to the project that contains DbContext 
+- execute 'add-migration init' or 'add-migration init -o Persistence\Migration'
