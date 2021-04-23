@@ -10,6 +10,7 @@ using Application.Dto;
 using Application.Pings.Commands;
 using Application.Pings.Queries;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -21,9 +22,11 @@ namespace WebApi.Controllers
     public class PingController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly ILogger<PingController> _logger;
 
-        public PingController(IMediator mediator)
+        public PingController(ILogger<PingController> logger, IMediator mediator)
         {
+            _logger = logger;
             _mediator = mediator;
         }
 
@@ -37,17 +40,21 @@ namespace WebApi.Controllers
 
         // GET api/<PingController>/5
         [HttpGet("{id}")]
-        public async Task<string> Get(int id)
+        public async Task<ActionResult<string>> Get(int id)
         {
             //var response = await _mediator.Send(new Ping{ SendingTime = DateTime.Now});
             //return response;
-            return "haha";
+            return NotFound();
+            //return "haha";
+
         }
 
         // POST api/<PingController>
         [HttpPost]
         public async Task<ServiceResult<PingDto>> Post(CreatePingCommand command)
         {
+            throw new ArgumentException($"We don't offer a weather forecast for this city");
+
             var response = await _mediator.Send(command);
             return response;
         }
@@ -56,12 +63,15 @@ namespace WebApi.Controllers
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
+            throw new ArgumentException($"We don't offer a weather forecast for this city");
         }
 
         // DELETE api/<PingController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            int A = 10;
+            var B = A / 0;
         }
     }
 }
