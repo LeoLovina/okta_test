@@ -53,8 +53,6 @@ namespace WebApi.Controllers
         [HttpPost]
         public async Task<ServiceResult<PingDto>> Post(CreatePingCommand command)
         {
-            throw new ArgumentException($"We don't offer a weather forecast for this city");
-
             var response = await _mediator.Send(command);
             return response;
         }

@@ -33,8 +33,8 @@ namespace WebApi
                 })
                 .AddJwtBearer(options =>
                 {
-                    options.Authority = "https://dev-82330891.okta.com/oauth2/default";
-                    options.Audience = "api://default";
+                    options.Authority = Configuration.GetValue<string>("JWT:Authority");
+                    options.Audience = Configuration.GetValue<string>("JWT:Audience");
                     options.RequireHttpsMetadata = true;
                 });
 

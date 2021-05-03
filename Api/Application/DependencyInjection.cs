@@ -28,6 +28,7 @@ namespace Application
         /// Mapster(Mapper) global configuration settings
         /// To learn more about Mapster,
         /// see https://github.com/MapsterMapper/Mapster
+        /// https://github.com/MapsterMapper/Mapster/wiki/Custom-mapping
         /// </summary>
         /// <returns></returns>
         private static TypeAdapterConfig GetConfiguredMappingConfig()

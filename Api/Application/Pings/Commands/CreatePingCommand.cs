@@ -2,7 +2,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Threading;
 using System.Threading.Tasks;
-using Application.Common;
 using Application.Common.Interfaces;
 using Application.Common.Models;
 using Application.Dto;
@@ -32,21 +31,12 @@ namespace Application.Pings.Commands
         public async Task<ServiceResult<PingDto>> Handle(CreatePingCommand request, CancellationToken cancellationToken)
         {
             var entity = _mapper.Map<Ping>(request);
+
             entity.SendingTime = DateTime.Now;
             await _dbContext.Pings.AddAsync(entity, cancellationToken);
+
             await _dbContext.SaveChangesAsync(cancellationToken);
             return ServiceResult.Success<PingDto>(_mapper.Map<PingDto>(entity));
-            //var entity = new PingDto()
-            //{
-            //    SendingTime = DateTime.Now,
-            //    Message = $"ID={request.Id}  Name={request.Name}"
-            //};
-
-
-            //var Ping = entity.Adapt<Domain.Entities.Ping>();
-
-            //return ServiceResult.Success(entity);
         }
-
     }
 }
