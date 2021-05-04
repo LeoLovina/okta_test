@@ -15,10 +15,10 @@ namespace Domain.Entities
         [MaxLength(128)]
         [Required]
         public string HostName { get; set; }
-
         public int Times { get; set; }
         public string Message { get; set; }
         [Column(TypeName = "DateTime")]
         public DateTime SendingTime { get; set; }
+        public virtual ICollection<Computer> Computers { get; set; }
     }
 }

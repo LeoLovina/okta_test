@@ -1,6 +1,7 @@
 using Application;
 using Infrastructure;
 using Infrastructure.Persistence;
+using Microsoft.AspNet.OData.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -42,7 +43,7 @@ namespace WebApi
 
             services.AddInfrastructure(Configuration);
             services.AddApplication();
-            services.AddControllers();
+            //services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApi", Version = "v1" });
@@ -89,7 +90,12 @@ namespace WebApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.EnableDependencyInjection();
+                endpoints.Expand().Select().Count().OrderBy().Filter();
+                endpoints.MapODataRoute("odata", "odata", ModelProvider.GetEdmModel());
             });
         }
+
+  
     }
 }

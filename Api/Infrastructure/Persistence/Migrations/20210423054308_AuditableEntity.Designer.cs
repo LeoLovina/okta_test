@@ -13,7 +13,7 @@ namespace Infrastructure.Persistence.Migrations
     [Migration("20210423054308_AuditableEntity")]
     partial class AuditableEntity
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

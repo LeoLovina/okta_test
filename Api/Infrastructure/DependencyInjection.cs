@@ -7,9 +7,11 @@ using System.Threading.Tasks;
 using Application.Common.Interfaces;
 using Infrastructure.Persistence;
 using MediatR;
+using Microsoft.AspNet.OData.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 
 namespace Infrastructure
 {
@@ -25,6 +27,19 @@ namespace Infrastructure
             // Scoped lifetime services are created once per request within the scope.
             // Create DI for IApplicationDbContext that binds to ApplicationDbContext
             services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
+
+            // Enable OData
+            services.AddControllers(options =>
+            {
+                options.EnableEndpointRouting = false;
+            })
+            // json mentioned to avoid loop references
+            .AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            });
+            services.AddOData();
+
             return services;
         }
     }
