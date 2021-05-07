@@ -13,7 +13,7 @@ namespace Infrastructure.Persistence.Migrations
     [Migration("20210427014441_Update_ModifyDate_Field_Name")]
     partial class Update_ModifyDate_Field_Name
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

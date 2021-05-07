@@ -13,7 +13,7 @@ namespace Infrastructure.Persistence.Migrations
     [Migration("20210503073437_Required")]
     partial class Required
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
