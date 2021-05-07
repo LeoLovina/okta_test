@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers
 {
+
     [Route("odata/[controller]")]
     public class PingODataController : ControllerBase
     {
@@ -19,6 +20,8 @@ namespace WebApi.Controllers
         {
             _dbContext = dbContext;
         }
+
+        [ApiExplorerSettings(IgnoreApi = false)]
         [EnableQuery]
         [HttpGet]
         public IQueryable<Ping> Get()

@@ -8,9 +8,11 @@ using Application.Common.Interfaces;
 using Infrastructure.Persistence;
 using MediatR;
 using Microsoft.AspNet.OData.Extensions;
+using Microsoft.AspNet.OData.Formatter;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 
 namespace Infrastructure
@@ -29,17 +31,18 @@ namespace Infrastructure
             services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
 
             // Enable OData
-            services.AddControllers(options =>
-            {
-                options.EnableEndpointRouting = false;
-            })
-            // json mentioned to avoid loop references
-            .AddNewtonsoftJson(options =>
-            {
-                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-            });
             services.AddOData();
+            services.AddControllers(
+                    options =>
+                    {
+                        options.EnableEndpointRouting = false;
+                        var outputFormatters =
+                            options.OutputFormatters.OfType<ODataOutputFormatter>()
+                                .Where(formatter => formatter.SupportedMediaTypes.Count == 0);
 
+                        foreach (var outputFormatter in outputFormatters) outputFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/odata"));
+                    })
+                .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore); ;
             return services;
         }
     }
