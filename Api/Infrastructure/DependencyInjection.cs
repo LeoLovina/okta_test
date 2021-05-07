@@ -30,7 +30,8 @@ namespace Infrastructure
             // Create DI for IApplicationDbContext that binds to ApplicationDbContext
             services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
 
-            // Enable OData
+            // Register Services through Dependency Injection
+            // Register the OData Services
             services.AddOData();
             services.AddControllers(
                     options =>
