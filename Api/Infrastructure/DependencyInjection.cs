@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Application.Common.Interfaces;
 using Infrastructure.Persistence;
-using MediatR;
 using Microsoft.AspNet.OData.Extensions;
 using Microsoft.AspNet.OData.Formatter;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -36,14 +31,18 @@ namespace Infrastructure
             services.AddControllers(
                     options =>
                     {
-                        options.EnableEndpointRouting = false;
-                        var outputFormatters =
-                            options.OutputFormatters.OfType<ODataOutputFormatter>()
-                                .Where(formatter => formatter.SupportedMediaTypes.Count == 0);
+                        foreach (var outputFormatter in options.OutputFormatters.OfType<OutputFormatter>().Where(x => x.SupportedMediaTypes.Count == 0))
+                        {
+                            outputFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/prs.odatatestxx-odata"));
+                        }
 
-                        foreach (var outputFormatter in outputFormatters) outputFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/odata"));
+                        foreach (var inputFormatter in options.InputFormatters.OfType<InputFormatter>().Where(x => x.SupportedMediaTypes.Count == 0))
+                        {
+                            inputFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/prs.odatatestxx-odata"));
+                        }
                     })
                 .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore); ;
+
             return services;
         }
     }
