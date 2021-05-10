@@ -5,12 +5,15 @@ using System.Linq;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using Application.Common;
+using Application.Common.Interfaces;
 using Application.Common.Models;
 using Application.Dto;
 using Application.Pings.Commands;
 using Application.Pings.Queries;
 using MediatR;
+using Microsoft.AspNet.OData;
 using Microsoft.Extensions.Logging;
+using Ping = Domain.Entities.Ping;
 
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -23,28 +26,41 @@ namespace WebApi.Controllers
     {
         private readonly IMediator _mediator;
         private readonly ILogger<PingController> _logger;
+        private readonly IApplicationDbContext _dbContext;
 
-        public PingController(ILogger<PingController> logger, IMediator mediator)
+        public PingController(ILogger<PingController> logger, IMediator mediator, IApplicationDbContext dbContext)
         {
             _logger = logger;
             _mediator = mediator;
+            _dbContext = dbContext;
         }
 
         // GET: api/<PingController>
+        //[HttpGet]
+        //public async Task<ServiceResult<List<PingDto>>> Get()
+        //{
+        //    var response = await _mediator.Send(new GetAllPingsQuery());
+        //    return response;
+        //}
+        [EnableQuery]
         [HttpGet]
-        public async Task<ServiceResult<List<PingDto>>> Get()
+        public IQueryable<Ping> Get()
         {
-            var response = await _mediator.Send(new GetAllPingsQuery());
-            return response;
+            return _dbContext.Pings.AsQueryable();
         }
 
         // GET api/<PingController>/5
+        [EnableQuery]
         [HttpGet("{id}")]
-        public async Task<ActionResult<string>> Get(int id)
+        public async Task<ActionResult<Ping>> Get(int id)
+        //public async Task<ServiceResult<Ping>> Get(int id)
         {
+            var result = _dbContext.Pings.FirstOrDefault(x => x.Id == id);
+            return result;
+            //return ServiceResult.Success(result);
             //var response = await _mediator.Send(new Ping{ SendingTime = DateTime.Now});
             //return response;
-            return NotFound();
+            //return NotFound();
             //return "haha";
 
         }
