@@ -33,3 +33,4 @@ Register the OData Services
             });
     ```
 1. Query the metadata https://localhost:44304/odata/$metadata. You can see the EMD model.
+1. https://localhost:44304/api/Ping?$filter=Id eq 5&$select=hostname, message&$expand=computers

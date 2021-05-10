@@ -35,34 +35,20 @@ namespace WebApi.Controllers
             _dbContext = dbContext;
         }
 
-        // GET: api/<PingController>
-        //[HttpGet]
-        //public async Task<ServiceResult<List<PingDto>>> Get()
-        //{
-        //    var response = await _mediator.Send(new GetAllPingsQuery());
-        //    return response;
-        //}
         [EnableQuery]
         [HttpGet]
-        public IQueryable<Ping> Get()
+        public IActionResult Get()
         {
-            return _dbContext.Pings.AsQueryable();
+            return Ok(_dbContext.Pings);
         }
 
         // GET api/<PingController>/5
         [EnableQuery]
         [HttpGet("{id}")]
-        public async Task<ActionResult<Ping>> Get(int id)
-        //public async Task<ServiceResult<Ping>> Get(int id)
+        public IActionResult Get(int id)
         {
             var result = _dbContext.Pings.FirstOrDefault(x => x.Id == id);
-            return result;
-            //return ServiceResult.Success(result);
-            //var response = await _mediator.Send(new Ping{ SendingTime = DateTime.Now});
-            //return response;
-            //return NotFound();
-            //return "haha";
-
+            return Ok(result);
         }
 
         // POST api/<PingController>
